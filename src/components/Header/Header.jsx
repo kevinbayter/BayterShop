@@ -28,14 +28,16 @@ const nav__links = [
   {
     path: 'cart',
     display: 'Cart'
-  }
+  },
 ]
 
 const Header = () => {
 
   const headerRef = useRef(null);
   const totalQuantity = useSelector(state => state.cart.totalQuantity)
+  const totalQuantityFav = useSelector((state) => state.fav.totalQuantityFav);
   const profileActionRef = useRef(null);
+
 
   const menuRef = useRef(null);
   const navigate = useNavigate();
@@ -72,6 +74,10 @@ const Header = () => {
     navigate('/cart')
   }
 
+  const navigateToFav = () => {
+    navigate('/favorites')
+  }
+
   const toggleProfileActions = () => profileActionRef.current.classList.toggle('show__profileActions');
 
   return (
@@ -81,9 +87,11 @@ const Header = () => {
           <div className="nav__wrapper">
             <div className="logo">
               <img src={logo} alt="logo" />
-              <div>
-                <h1>BayterShop</h1>
-              </div>
+              <linkGroup>
+                <NavLink to="/home">
+                  <h1>BayterShop</h1>
+                </NavLink>
+              </linkGroup>
             </div>
 
             <div className="navigation" ref={menuRef} onClick={menuToggle}>
@@ -104,9 +112,9 @@ const Header = () => {
             </div>
 
             <div className="nav__icons">
-              <span className="fav__icon">
+              <span className="fav__icon" onClick={navigateToFav}>
                 <i class="ri-heart-line"></i>
-                <span className="badge">1</span>
+                <span className="badge">{totalQuantityFav}</span>
               </span>
               <span className="cart__icon" onClick={navigateToCart}>
                 {" "}
@@ -121,8 +129,11 @@ const Header = () => {
                   alt=""
                   onClick={toggleProfileActions}
                 />
-
-                <div className="profile__actions" ref={profileActionRef} onClick={toggleProfileActions}>
+                <div
+                  className="profile__actions"
+                  ref={profileActionRef}
+                  onClick={toggleProfileActions}
+                >
                   {currentUser ? (
                     <span onClick={logout}>Logout</span>
                   ) : (

@@ -22,6 +22,7 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = userCredential.user;
 
+      console.log(user)
       setLoading(false)
       toast.success("Successfully logged in");
 

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../redux/slices/cartSlice";
+import { favActions } from "../../redux/slices/favSlice";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,20 @@ const ProductCard = ({ item }) => {
 
     toast.success("Product added successfully");
   };
+
+  const addToFav = () => {
+    dispatch(
+      favActions.addItem({
+        id: item.id,
+        productName: item.productName,
+        price: item.price,
+        imgUrl: item.imgUrl,
+      })
+    );
+
+  toast.success("Product added to favorites successfully");
+  };
+
   return (
     <Col lg="3" md="4" className="mb-2">
       <div className="product__item">
@@ -42,6 +57,9 @@ const ProductCard = ({ item }) => {
           <span className="price">{item.price}</span>
           <motion.span whileTap={{ scale: 1.2 }} onClick={addToCard}>
             <i class="ri-add-line"></i>
+          </motion.span>
+          <motion.span whileTap={{ scale: 1.2 }} onClick={addToFav}>
+            <i class="ri-heart-line"></i>
           </motion.span>
         </div>
       </div>
